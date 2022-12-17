@@ -1,6 +1,6 @@
 # Projekt Schmico
 import guizero as gz
-
+import CustomButton as CB
 #variabeln
 mode = "Single Player Mode"     #or "Multi Player mode"
 color_standart = "blue"         #standart farbe für spielsteine des spielfelds
@@ -47,78 +47,8 @@ Line={                          #Dict welche Felder eine linie benötigen
 
 #Funktionen
 def change_colors(but):
-    global turn
-    global flg
-    global error_msg
-    global color_standart
-    global color_player1
-    global color_player2
-    global muehle_stage
-    global snake
-    global frosch
+    pass
 
-
-    if turn == 1:
-        player1.border = 2
-        player2.border = False
-        turn = 2
-
-        text_player1.value=">"+text_player1.value
-        if flg:
-            flg= False
-        else:
-            text_player2.value=text_player2.value[1:]
-
-        if muehle_stage == "setzen":
-            if but.bg==color_standart:
-                 but.bg = color_player1
-            else:
-                 but.bg=color_standart
-                 turn = 0
-            if snake < 9:
-                player_anzeige1[snake].bg = "purple"
-                snake = snake + 1
-        else:
-            if but.bg==color_standart:
-                 but.bg = color_player1
-            else:
-                 but.bg=color_standart
-                 turn = 1
-            if snake < 0:
-                player_anzeige2[snake].bg = "black"
-                snake = snake - 1
-
-    else:
-        player1.border = False
-        player2.border = 2
-        turn = 1
-        text_player2.value=">"+text_player2.value
-        text_player1.value=text_player1.value[1:]
-
-        if muehle_stage == "setzen":
-            if but.bg==color_standart:
-                 but.bg = color_player2
-            else:
-                 but.bg=color_standart
-                 turn = 1
-            if frosch < 9:
-                player_anzeige2[frosch].bg = "purple"
-                frosch = frosch + 1
-        else:
-            if but.bg==color_standart:
-                 but.bg = color_player2
-            else:
-                 but.bg=color_standart
-                 turn = 2
-            if frosch > 0:
-                player_anzeige1[frosch].bg = "black"
-                frosch = frosch - 1
-
-        if frosch < 9:
-            player_anzeige2[frosch].bg = "black"
-            frosch = frosch + 1
-        else:
-            muehle_stage = 1
 
 
 app = gz.App(title="Programm Schmico")
