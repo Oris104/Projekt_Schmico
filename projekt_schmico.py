@@ -8,10 +8,12 @@ color_player1 = "green"         #standart farbe für spielsteine des spielers 1
 color_player2 = "red"           #standart farbe für spielsteine des spielers 2
 turn = 1                        #varable die deklariert wer am zug ist (spieler 1 oder spieler 2)
 error_msg = ""                  #falls eine fehlermeldung eingeblendet werden soll -> hier einfügen
-flg = True                      #Wird auf True gesetzt beim ersten durchlauf
+flg = 1                     #Wird auf True gesetzt beim ersten durchlauf
 muehle_stage = "setzen"         #steine setzen, fortgeschritten steinen fahren
 snake = 0                       #zähler wie viele steine die spieler noch übrig haben
 frosch = 0                      #zähler wie viele steine die spieler noch übrig haben
+sxy=[]
+
 
 Dict={                          #Dict welche felder buttons werden
 0:[0,6,12],
@@ -47,7 +49,67 @@ Line={                          #Dict welche Felder eine linie benötigen
 
 #Funktionen
 def change_colors(but):
-    pass
+    global sxy
+    global selectedButton
+    if turn == 1 and but.state==1:
+        but.state=0
+        selectedButton = False
+    elif turn==1 and not but.state==2 :
+        but.state=1
+        selectedButton = but
+    elif turn == 2 and but.state ==2:
+        but.state=0
+        selectedButton=False
+    elif turn==2 and not but.state==1:
+        but.state=2
+        selectedButton = but
+
+    but.uPdate_color()
+
+def confirm():
+    global turn
+    global flg
+    global selectedButton
+    if selectedButton:
+        if turn == 1:
+            turnindiChanger()
+            turn = 2
+        else:
+            turnindiChanger()
+            turn=1
+    flg=0
+
+def turnindiChanger():
+    global snake
+    global frosch
+    global selectedButton
+    if turn == 1:
+
+        text_player1.value = text_player1.value[1:]
+        text_player2.value = ">" + text_player2.value
+        player1.border = False
+        player2.border = 2
+        if selectedButton:
+            if snake<9:
+                player_anzeige1[snake].bg = "purple"
+                snake = snake + 1
+            selectedButton = False
+        return 0
+    else:
+        player1.border = False
+        player2.border = 2
+        player1.border = 2
+        player2.border = False
+        text_player1.value = ">" + text_player1.value
+        text_player2.value = text_player2.value[1:]
+        if selectedButton:
+            selectedButton=False
+            if frosch < 9:
+                player_anzeige2[frosch].bg = "purple"
+                frosch = frosch + 1
+
+
+
 
 
 
@@ -76,13 +138,14 @@ for x in range (0,13):
                         if x in Line[y]:
                             d = gz.Drawing(BoxListW[-1])
                             d.line(12, 0, 12, 25, color="black", width=2)
+
 for item in BoxListB:
-      item.bg = color_standart
-      BList.append(gz.PushButton(item, text="", width="fill", height="fill"))
+      BList.append(CB.cButton(item,item.grid),)
 for item in BoxListW:
       item.bg = "white"
 for item in BList:
     item.update_command(change_colors,args=[item])
+    item.uPdate_color()
 
 error_box = gz.Box(app, align="bottom", width="fill", height=27)
 
@@ -99,6 +162,13 @@ player1.bg = color_player1
 text_player1 = gz.Text(player1, text="Player 1: ", align="top")
 text_player2 = gz.Text(player2, text="Player 2: ", align="top")
 text_error = gz.Text(error_box, text=f"Error: {error_msg}", align="top")
+
+sbutonBox=gz.Box(app,width=60,height=60,align="right")
+ConfirmButton = gz.PushButton(sbutonBox,width="fill",height="fill",command=confirm,text="Confirm")
+text_player1.value=">"+text_player1.value
+
+player1.border = 2
+player2.border = False
 
 #Anzeige
 player_anzeige1 = []
