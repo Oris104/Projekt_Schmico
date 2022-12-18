@@ -142,6 +142,8 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 1
                 JumpToken.uPdate_color()
+                selectedButton.state = 0
+                selectedButton.uPdate_color()
             JumpToken = but
             p1mov = 1
         elif turn == 2 and but.state == 2 and not removestonep2:
@@ -150,6 +152,8 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 2
                 JumpToken.uPdate_color()
+                selectedButton.state=0
+                selectedButton.uPdate_color()
             JumpToken = but
             p2mov = 1
         if turn == 1 and but.state == 0 and jsSelec and not removestonep1:
@@ -257,7 +261,7 @@ def turnindiChanger(snake, frosch):
         player1.border = False
         player2.border = 2
         if selectedButton:
-            if snake.tokensbord <= 9:
+            if snake.tokensbord <= snake.tokens:
                 player_anzeige1[snake.tokensbord - 1].bg = "purple"
             selectedButton = False
     else:
@@ -269,7 +273,7 @@ def turnindiChanger(snake, frosch):
         text_player2.value = text_player2.value[1:]
         if selectedButton:
             selectedButton = False
-            if frosch.tokensbord < 10:
+            if frosch.tokensbord <= frosch.tokens:
                 player_anzeige2[frosch.tokensbord - 1].bg = "purple"
     fla = True
     while(fla):
