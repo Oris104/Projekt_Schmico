@@ -13,7 +13,13 @@ muehle_stage = "setzen"         #steine setzen, fortgeschritten steinen fahren
 snake = 0                       #zähler wie viele steine die spieler noch übrig haben
 frosch = 0                      #zähler wie viele steine die spieler noch übrig haben
 sxy=[]
-
+p1mov=1
+p2mov=1
+selectedButton=False
+JumpToken = False
+removestonep1=False
+removestonep2=False
+jsSelec = False
 
 Dict={                          #Dict welche felder buttons werden
 0:[0,6,12],
@@ -46,23 +52,95 @@ Line={                          #Dict welche Felder eine linie benötigen
 12:[-1]
 }
 
+class Player():
+    def __init__(self,name):
+        self.name = name
+        self.tokens = 9
+        self.tokensbord = 0
+    def looseToken(self):
+        self.tokens+=-1
+        self.tokensbord+=-1
+    def placeToken(self):
+        self.tokensbord+=1
+
+
+
+def canSLide(t1,t2):
+    global BList
+    global MList
+    for item in MList:
+        if t1 in item and t2 in item and abs(item.index(t1)-item.index(t2))<=1:
+            return True
+        else:
+            return False
+
+
 
 #Funktionen
 def change_colors(but):
     global sxy
+    global p1mov
+    global p2mov
     global selectedButton
-    if turn == 1 and but.state==1:
-        but.state=0
-        selectedButton = False
-    elif turn==1 and not but.state==2 :
-        but.state=1
-        selectedButton = but
-    elif turn == 2 and but.state ==2:
-        but.state=0
-        selectedButton=False
-    elif turn==2 and not but.state==1:
-        but.state=2
-        selectedButton = but
+    global JumpToken
+    global removestonep1
+    global removestonep2
+    global jsSelec
+    if (p1.tokens>p1.tokensbord and turn==1)or (p2.tokens>p2.tokensbord and turn==2):
+        if turn == 1 and but.state==0 and not removestonep1:
+            if selectedButton and not p1mov:
+                selectedButton.state=0
+                selectedButton.uPdate_color()
+            but.state=3
+            p1mov=0
+            selectedButton=but
+        elif turn == 2 and but.state ==0  and not removestonep2:
+            if selectedButton and not p2mov:
+                selectedButton.state = 0
+
+            but.state = 4
+            p2mov = 0
+            selectedButton = but
+    elif p1.tokensbord==p1.tokens and turn ==1 or p2.tokens==p2.tokensbord and turn ==2 :
+        if turn == 1 and but.state==1 and not removestonep1:
+            jsSelec= True
+            but.state=5
+            if JumpToken:
+                JumpToken.state = 1
+                JumpToken.uPdate_color()
+
+            JumpToken=but
+        elif turn == 2 and but.state == 2 and not removestonep2:
+            jsSelec = True
+            but.state = 6
+            if JumpToken:
+                JumpToken.state = 2
+                JumpToken.uPdate_color()
+
+            JumpToken = but
+        if turn ==1 and but.state==0 and jsSelec and canSLide(but,JumpToken):
+            but.state=3
+        else:
+            pass
+
+
+    if turn == 1 and but.state==2 and removestonep1:
+        if selectedButton:
+            selectedButton.state=2
+            selectedButton.uPdate_color()
+        selectedButton=but
+        but.state=4
+        p1mov=0
+    elif turn==2 and but.state==1 and removestonep2:
+        if selectedButton:
+            selectedButton.state=1
+            selectedButton.uPdate_color()
+        selectedButton=but
+        but.state=3
+        p2mov=0
+
+
+
 
     but.uPdate_color()
 
@@ -70,19 +148,55 @@ def confirm():
     global turn
     global flg
     global selectedButton
-    if selectedButton:
+    global  p1mov
+    global p2mov
+    global MList
+    global BList
+    global removestonep1
+    global removestonep2
+    scoreCHeck = False
+    for item in BList:
+        if item.state == 3 and  not removestonep2:
+            item.state = 1
+            p1.placeToken()
+        elif removestonep2 and item.state==3:
+            item.state=0
+            p1.looseToken()
+            removestonep2=False
+        if item.state == 4and  not removestonep1:
+            item.state = 2
+            p2.placeToken()
+        elif removestonep1 and item.state==4:
+            item.state=0
+            removestonep1 = False
+            p2.looseToken()
+        item.uPdate_color()
+    for itemm in MList:
+        if itemm.CheckiScore():
+            scoreCHeck=True
+    if scoreCHeck:
+        selectedButton=False
+        if turn==1:
+            p1mov=1
+            removestonep1=True
+        elif turn==2:
+            p2mov=1
+            removestonep2 = True
+    elif p1mov==0 or p2mov==0:
+
         if turn == 1:
-            turnindiChanger()
+            turnindiChanger(p1.tokensbord,p2.tokensbord)
+            p1mov=1
             turn = 2
         else:
-            turnindiChanger()
+            turnindiChanger(p1.tokensbord,p2.tokensbord)
+            p2mov=1
             turn=1
+        selectedButton = False
     flg=0
-
-def turnindiChanger():
-    global snake
-    global frosch
+def turnindiChanger(snake,frosch):
     global selectedButton
+    global turn
     if turn == 1:
 
         text_player1.value = text_player1.value[1:]
@@ -91,8 +205,7 @@ def turnindiChanger():
         player2.border = 2
         if selectedButton:
             if snake<9:
-                player_anzeige1[snake].bg = "purple"
-                snake = snake + 1
+                player_anzeige1[snake-1].bg = "purple"
             selectedButton = False
         return 0
     else:
@@ -105,9 +218,31 @@ def turnindiChanger():
         if selectedButton:
             selectedButton=False
             if frosch < 9:
-                player_anzeige2[frosch].bg = "purple"
-                frosch = frosch + 1
+                player_anzeige2[frosch-1].bg = "purple"
 
+
+class mueleListe(list):
+    def __init__(self, B1, B2, B3):
+        super().__init__()
+        self.append(B1)
+        self.append(B2)
+        self.append(B3)
+        self.flag = False
+    def CheckiScore(self):
+        x=0
+        sum=[]
+        for item in self:
+            sum.append(item.state)
+        if sum[0]==1 or sum[0]==2:
+            if all(x == sum[0] for x in sum)and not self.flag:
+                self.flag=True
+                return True
+            elif not all(x== sum[0] for x in sum):
+                self.flag=False
+
+        else:
+            self.flag = False
+        return False
 
 
 
@@ -125,6 +260,7 @@ spielfeld.bg = "white"
 BoxListB = []
 BoxListW =[]
 BList = []
+MList = []
 for x in range (0,13):
       for y in range(0,13):
               if y in Dict[x]:
@@ -146,6 +282,45 @@ for item in BoxListW:
 for item in BList:
     item.update_command(change_colors,args=[item])
     item.uPdate_color()
+
+dcount=0
+mcounter = 3
+b1=False
+b2=False
+b3=False
+
+for item in BList:
+    if mcounter==3:
+        b1=item
+        mcounter -= 1
+    elif mcounter==2:
+        b2 = item
+        mcounter -= 1
+    elif mcounter ==1:
+        b3 = item
+        mcounter -= 1
+        mcounter = 3
+        MList.append(mueleListe(b1, b2, b3))
+        b1 = False
+        b2 = False
+        b3 = False
+
+
+
+
+MList.append(mueleListe(BList[0],BList[9],BList[21],))
+MList.append(mueleListe(BList[3],BList[10],BList[18],))
+MList.append(mueleListe(BList[6],BList[11],BList[15],))
+MList.append(mueleListe(BList[1],BList[4],BList[7],))
+MList.append(mueleListe(BList[16],BList[19],BList[22],))
+MList.append(mueleListe(BList[8],BList[12],BList[17],))
+MList.append(mueleListe(BList[5],BList[13],BList[20],))
+MList.append(mueleListe(BList[2],BList[14],BList[23],))
+
+for item in MList:
+    for thing in item:
+        thing.text+= str(dcount)
+    dcount+=1
 
 error_box = gz.Box(app, align="bottom", width="fill", height=27)
 
@@ -184,7 +359,8 @@ for item in player_anzeige2:
       item.border = 1
 
 
-
+p1 = Player("n1")
+p2 = Player("n2")
 
 
 app.display()

@@ -5,6 +5,7 @@ class cButton(gz.PushButton):
         super().__init__(master,width="fill",height="fill",text="")
         self.state=state
         self.xy = []
+
         for item in xy:
 
             self.xy.append(item)
@@ -20,5 +21,9 @@ class cButton(gz.PushButton):
             case 3:
                 self.bg = "light green"
             case 4:
+                self.bg = "pink"
+            case 5:
+                self.bg = "light green"
+            case 6:
                 self.bg = "pink"
 
