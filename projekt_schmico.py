@@ -1,7 +1,11 @@
 # Projekt Schmico
+import pickle
+
 import guizero as gz
 import CustomButton as CB
-
+import serial
+import pickle
+import time
 # variabeln
 mode = "Single Player Mode"  # or "Multi Player mode"
 color_standart = "blue"  # standart farbe für spielsteine des spielfelds
@@ -21,8 +25,11 @@ JumpToken = False
 removestonep1 = False
 removestonep2 = False
 jsSelec = False
-p1rem=9
-p2rem=9
+maxtkk=5
+
+MUltipl = False
+mpnAme =""
+
 
 
 Dict = {  # Dict welche felder buttons werden
@@ -58,9 +65,9 @@ Line = {  # Dict welche Felder eine linie benötigen
 
 
 class Player():
-    def __init__(self, name):
+    def __init__(self, name,maxtk):
         self.name = name
-        self.tokens = 9
+        self.tokens = maxtk
         self.tokensbord = 0
 
     def looseToken(self):
@@ -117,6 +124,8 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 1
                 JumpToken.uPdate_color()
+                selectedButton.state = 0
+                selectedButton.uPdate_color()
             JumpToken = but
             p1mov = 1
         elif turn == 2 and but.state == 2 and not removestonep2:
@@ -125,6 +134,8 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 2
                 JumpToken.uPdate_color()
+                selectedButton.state = 0
+                selectedButton.uPdate_color()
             JumpToken = but
             p2mov = 1
         if turn == 1 and but.state == 0 and jsSelec and canSLide(but, JumpToken) and not removestonep1:
@@ -158,10 +169,16 @@ def change_colors(but):
             p2mov = 1
         if turn == 1 and but.state == 0 and jsSelec and not removestonep1:
             but.state = 3
+            if selectedButton:
+                selectedButton.state=0
+                selectedButton.uPdate_color()
             selectedButton = but
             p1mov = 0
         elif turn == 2 and but.state == 0 and jsSelec and not removestonep1:
             but.state = 4
+            if selectedButton:
+                selectedButton.state = 0
+                selectedButton.uPdate_color()
             p2mov = 0
             selectedButton = but
 
@@ -229,7 +246,7 @@ def confirm():
             elif turn == 2:
                 p2mov = 1
                 removestonep2 = True
-        elif p1mov == 0 or p2mov == 0:
+        elif p1mov == 0 or p2mov == 0 and not MUltipl:
 
             if turn == 1:
                 turnindiChanger(p1, p2)
@@ -240,7 +257,35 @@ def confirm():
                 p2mov = 1
                 turn = 1
             selectedButton = False
+        elif p1mov == 0 or p2mov == 0:
+            if turn == 1:
+                turnindiChanger(p1, p2)
+                turn=2
+                writes("P2T")
+                time.sleep(0.5)
+                writes(pIckler(BList))
+                while not reads()=="P1T":
+                    pass
+                while reads()=="P1T":
+                    time.sleep(0.5)
+                unpickler(reads(),BList)
+                turn = 1
+                p1mov=1
+            else:
+                turnindiChanger(p1, p2)
+                turn=1
+                writes("P1T")
+                time.sleep(0.5)
+                writes(pIckler(BList))
+                while not reads()=="P2T":
+                    pass
+                while reads()=="P2T":
+                    time.sleep(0.5)
+                unpickler(reads(), BList)
+                turn = 2
+                p2mov=1
         flg = 0
+
     JumpToken = False
     if p1.tokens<=2:
         print("p2 wins")
@@ -254,6 +299,17 @@ def turnindiChanger(snake, frosch):
     global p1rem,p2rem
     global selectedButton
     global turn
+
+    fla = True
+    while(fla):
+        if len(player_anzeige1)>p1.tokens:
+            player_anzeige1[0].destroy()
+            player_anzeige1.pop(0)
+        if len(player_anzeige2)>p2.tokens:
+            player_anzeige2[0].destroy()
+            player_anzeige2.pop(0)
+        if len(player_anzeige1)==p1.tokens and len(player_anzeige2)==p2.tokens:
+            fla=False
     if turn == 1:
 
         text_player1.value = text_player1.value[1:]
@@ -275,17 +331,6 @@ def turnindiChanger(snake, frosch):
             selectedButton = False
             if frosch.tokensbord <= frosch.tokens:
                 player_anzeige2[frosch.tokensbord - 1].bg = "purple"
-    fla = True
-    while(fla):
-        if len(player_anzeige1)>p1.tokens:
-            player_anzeige1[0].destroy()
-            player_anzeige1.pop(0)
-        if len(player_anzeige2)>p2.tokens:
-            player_anzeige2[0].destroy()
-            player_anzeige2.pop(0)
-        if len(player_anzeige1)==p1.tokens and len(player_anzeige2)==p2.tokens:
-            fla=False
-
 class mueleListe(list):
     def __init__(self, B1, B2, B3):
         super().__init__()
@@ -326,6 +371,45 @@ def canRemove(butoon):
         if butoon in item and item.viewifinMuele():
             return False
     return True
+
+def pIckler(Blist):
+    returner = []
+    for item in Blist:
+        returner.append(item.state)
+    return pickle.dumps(returner)
+
+
+def unpickler(Plist,Blist):
+    for item in Plist:
+        x = Plist.index(item)
+        Blist[x].state = item
+        Blist[x].uPdate_color()
+
+
+def writes(data):
+    ser = serial.Serial(getPort())
+    ser.write(data)
+def reads():
+    ser = serial.Serial(getPort())
+    return  ser.readline()
+
+def getPort():
+    ports=[]
+    for port in serial.tools.list_ports.comports():
+        ports.append(port.name)
+    return ports[0]
+def foundPlayer():
+    if reads() == "LFG":
+        writes("FOUND")
+        return True
+    else:
+        return False
+def isLonley():
+    if reads() =="FOUND":
+        return False
+    else:
+        writes("LFG")
+        return True
 
 
 app = gz.App(title="Programm Schmico")
@@ -422,6 +506,8 @@ text_player1.value = ">" + text_player1.value
 player1.border = 2
 player2.border = False
 
+
+
 # Anzeige
 player_anzeige1 = []
 player_anzeige2 = []
@@ -435,7 +521,15 @@ for item in player_anzeige2:
     item.bg = "white"
     item.border = 1
 
-p1 = Player("n1")
-p2 = Player("n2")
+p1 = Player("n1",   maxtkk)
+p2 = Player("n2",maxtkk)
+
+
+wind = gz.Window(app,"Hauptmenu")
+
+
+
+
+
 
 app.display()
