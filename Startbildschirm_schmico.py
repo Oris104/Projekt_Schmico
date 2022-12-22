@@ -48,7 +48,7 @@ def change_modus():
         tb11.text_color = "medium blue"
         tb12.text_color = "medium blue"
 
-app = gz.App(title="Startbildschirm Schmico")
+
 window = gz.Window(app,"test")
 
 #Boxen erstellen um sichtbar / nicht sichtbar machen

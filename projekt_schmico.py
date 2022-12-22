@@ -1,6 +1,6 @@
 # Projekt Schmico
-import pickle
 
+from serial.tools import list_ports
 import guizero as gz
 import CustomButton as CB
 import serial
@@ -26,7 +26,11 @@ removestonep1 = False
 removestonep2 = False
 jsSelec = False
 maxtkk=5
+p1name="lmao"
+p2name="LamO"
+hasconfirmed=False
 
+isP1=True
 MUltipl = False
 mpnAme =""
 
@@ -211,6 +215,7 @@ def confirm():
     global removestonep1
     global removestonep2
     global JumpToken
+    global MUltipl
     scoreCHeck = False
     if selectedButton:
         for item in BList:
@@ -399,6 +404,7 @@ def getPort():
         ports.append(port.name)
     return ports[0]
 def foundPlayer():
+    writes(0)
     if reads() == "LFG":
         writes("FOUND")
         return True
@@ -495,8 +501,8 @@ player1 = gz.Box(player_box1, grid=[0, 0], width=125, height=25)
 anzeige1 = gz.Box(player_box1, grid=[1, 0], width=300, height=25, layout="grid")
 player1.bg = color_player1
 
-text_player1 = gz.Text(player1, text="Player 1: ", align="top")
-text_player2 = gz.Text(player2, text="Player 2: ", align="top")
+text_player1 = gz.Text(player1, text=p1name+": ", align="top")
+text_player2 = gz.Text(player2, text=p2name+": ", align="top")
 text_error = gz.Text(error_box, text=f"Error: {error_msg}", align="top")
 
 sbutonBox = gz.Box(app, width=60, height=60, align="right")
@@ -521,11 +527,123 @@ for item in player_anzeige2:
     item.bg = "white"
     item.border = 1
 
+
+
+
+def start_modus():
+    global p1name,p2name,mpnAme,MUltipl,isP1,turn
+    global p1mov,p2mov,hasconfirmed
+    f1=False
+    f2=False
+    if int(mode.value) ==1:
+        if tb11.value != "Please enter a name for your character.":
+            mpnAme = str(tb11.value)
+            error_box.visible = False
+            box1.visible = False
+            box12.visible = False
+            picture = gz.Picture(box2, image="frog.png") #Change the path if necessary
+            box2.bg = "green"
+            hasconfirmed=True
+        else:
+            error_box.visible = True
+            error_msg.value = "Please enter a name!"
+
+    else:
+        if tb11.value != "Please enter a name for Player 1.":
+            p1name = str(tb11.value)
+            error_box.visible = False
+            f1=True
+        else:
+            error_box.visible = True
+            error_msg.value = "Please enter a name for Player 1!\n"
+        if tb12.value != "Please enter a name for Player 2.":
+            p2name = str(tb12.value)
+            error_box.visible = False
+            f2=True
+        else:
+            error_box.visible = True
+            error_msg.value += "Please enter a name for Player 2!"
+    if f1 and f2:
+        hasconfirmed=True
+    MUltipl=int(mode.value)
+    if MUltipl:
+        if foundPlayer():
+            time.sleep(0.2)
+            p1name=reads()
+            time.sleep(0.2)
+            writes(mpnAme)
+            isP1=False
+            turn=2
+            p2mov=0
+            p1mov=0
+            confirm()
+        else:
+
+            while isLonley():
+                pass
+            time.sleep(0.2)
+            writes(mpnAme)
+            time.sleep(0.5)
+            p2name=reads()
+    if hasconfirmed:
+        window.destroy()
+    text_player1.value = p1name + ": "
+    text_player2.value = p2name + ": "
+
+
+def change_modus():
+    if int(mode.value) == 1:
+        tx11.value = "Name:"
+        tb11.value = "Please enter a name for your character."
+        tb12.visible = False
+        box12.visible = False
+        #colors
+        box0.bg = "medium spring green"
+        tb11.text_color = "medium violet red"
+    else:
+        tx11.value = "Player 1:"
+        tb11.value = "Please enter a name for Player 1."
+        tb12.visible = True
+        box12.visible = True
+        tb12.value = "Please enter a name for Player 2."
+        #colors
+        box0.bg = "orchid"
+        tb11.text_color = "medium blue"
+        tb12.text_color = "medium blue"
+
+
+window = gz.Window(app,"Menu")
+
+#Boxen erstellen um sichtbar / nicht sichtbar machen
+box0 = gz.Box(window,  align= "top", height="fill", width="fill")
+box1 = gz.Box(box0,  align= "top", height="fill", width="fill")
+box2 = gz.Box(box0,  align= "top", height="fill", width="fill")
+
+tx1 = gz.Text(box1, text="Wilkommen bei Projekt Schmico, dem ein wenig besseren Mühlespiel.")                                           #Starttext
+tx2 = gz.Text(box1, text="Bitte wählen Sie ein Modi.")
+mode = gz.ButtonGroup(box1,options=[["Single Player Mode",0], ["Multi Player Mode",1]], align= "top", horizontal=True, command=change_modus)    #Modus selektieren
+box10 = gz.Box(box1,  align= "top", height=100, width="fill", layout="grid")
+box11 = gz.Box(box10,  grid=[0, 0], height=25, width=100, align="top")
+box12 = gz.Box(box10,  grid=[0, 1], height=25, width=100)
+tb11 = gz.TextBox(box10, text="Please enter a name for Player 1.", grid=[1, 0], height=50, width=300)
+tb12 = gz.TextBox(box10, text="Please enter a name for Player 2.", grid=[1, 1], height=50, width=300)
+pb1 = gz.PushButton(box1, text="Start", align= "top")                                                               #Start button
+error_box = gz.Box(box1, align= "top", height=50, width="fill")
+pb1.update_command(start_modus)
+#Texts
+tx11 = gz.Text(box11, text=p1name)
+tx12 = gz.Text(box12, text=p2name)
+error_msg = gz.Text(error_box, text="", color= "red")
+#Change Colors
+box0.bg = "orchid"
+tb11.text_color = "medium blue"
+tb12.text_color = "medium blue"
+waiting = gz.Text(window, visible=False,text="Waiting for Player")
+
+
+
 p1 = Player("n1",   maxtkk)
 p2 = Player("n2",maxtkk)
-
-
-wind = gz.Window(app,"Hauptmenu")
 
 
 
@@ -533,3 +651,6 @@ wind = gz.Window(app,"Hauptmenu")
 
 
 app.display()
+while(not hasconfirmed):
+    app.disable()
+print("done")
