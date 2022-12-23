@@ -264,6 +264,7 @@ def confirm():
             selectedButton = False
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
+                turn=1
                 turnindiChanger(p1, p2)
                 waitfor(True)
                 for item in BList:
@@ -288,12 +289,12 @@ def confirm():
                         item.state = 0
                         p2.movecor()
                     item.uPdate_color()
+                turn=2
                 turnindiChanger(p1, p2)
                 p1mov=1
-                turn=1
             else:
+                turn = 2
                 turnindiChanger(p1, p2)
-                turn=1
                 waitfor(False)
                 for item in BList:
                     if item.state == 3 and not removestonep2:
@@ -317,8 +318,9 @@ def confirm():
                         item.state = 0
                         p2.movecor()
                     item.uPdate_color()
+                turn = 1
                 turnindiChanger(p1, p2)
-                turn = 2
+
                 p2mov=1
         flg = 0
 
@@ -673,7 +675,12 @@ def start_modus():
                 p2mov=0
                 p1mov=0
                 selectedButton=True
+                window.destroy()
+                text_player1.value = p1name + ": "
+                text_player2.value = p2name + ": "
+
                 confirm()
+
             else:
                 #app.display()
                 isLonley()
