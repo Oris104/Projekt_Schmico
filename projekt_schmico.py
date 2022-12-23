@@ -415,7 +415,7 @@ def nameexchanger(ownname):
     noname = True
     while noname:
         ser.flushOutput()
-        ser.write(ownname.encode())
+        ser.writelines(ownname.encode())
         det = ser.readline().decode()
         if det:
             noname=False
@@ -433,7 +433,7 @@ def foundPlayer():
     while c>0:
         c-=1
         if ser.readline().decode() == "LFG":
-            ser.write("FOUND".encode())
+            ser.writelines("FOUND".encode())
             ser.flushInput()
             return True
         else:
@@ -442,11 +442,11 @@ def foundPlayer():
     return False
 def isLonley():
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
-    ser.write("LFG".encode())
+    ser.writelines("LFG".encode())
     wait = True
     while wait:
         ser.flushOutput()
-        ser.write("LFG".encode())
+        ser.writelines("LFG".encode())
         if ser.readline().decode() =="FOUND":
             ser.flushInput()
             wait=False
