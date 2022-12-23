@@ -441,6 +441,8 @@ def unpickler(Plist,Blist):
         if alln2 < allo2:
             p2.looseToken()
             allo2 -= 1
+        if alln1==allo1 and alln2==allo2:
+            fla=False
 
     for item in Blist:
         x = Blist.index(item)
