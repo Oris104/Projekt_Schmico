@@ -392,13 +392,15 @@ def unpickler(Plist,Blist):
 
 
 def writes(data):
-    ser = serial.Serial(getPort())
+    ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     ser.write(data)
+    print(data)
     ser.close()
 def reads():
-    ser = serial.Serial(getPort())
+    ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     data=ser.readline()
     ser.close()
+    print(data)
     return  data
 
 def getPort():
@@ -408,16 +410,16 @@ def getPort():
     return ports[0]
 def foundPlayer():
     writes(0)
-    if reads() == "LFG":
-        writes("FOUND")
+    if reads() == "LFG".encode():
+        writes("FOUND".encode())
         return True
     else:
         return False
 def isLonley():
-    if reads() =="FOUND":
+    if reads() =="FOUND".encode():
         return False
     else:
-        writes("LFG")
+        writes("LFG".encode())
         return True
 
 
@@ -635,8 +637,8 @@ pb1 = gz.PushButton(box1, text="Start", align= "top")                           
 error_box = gz.Box(box1, align= "top", height=50, width="fill")
 pb1.update_command(start_modus)
 #Texts
-tx11 = gz.Text(box11, text=p1name)
-tx12 = gz.Text(box12, text=p2name)
+tx11 = gz.Text(box11, text="P1 Name")
+tx12 = gz.Text(box12, text="P2 Name")
 error_msg = gz.Text(error_box, text="", color= "red")
 #Change Colors
 box0.bg = "orchid"
