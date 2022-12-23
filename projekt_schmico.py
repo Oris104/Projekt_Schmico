@@ -412,7 +412,7 @@ def nameexchanger(ownname):
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
     noname = True
     while noname:
-        ser.write(ownname.encode())
+        ser.write((ownname+"\n").encode())
         det = ser.readline().decode()
         if det:
             noname=False
