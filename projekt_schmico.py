@@ -265,24 +265,24 @@ def confirm():
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
                 turnindiChanger(p1, p2)
-                writes("P2T".encode())
-                time.sleep(0.5)
+                writes("P2T\n".encode())
+                time.sleep(2)
                 writes(pIckler(BList))
-                while not reads(False).decode()=="P1T":
+                while not reads(False).decode()=="P1T\n":
                     pass
-                while reads(False).decode()=="P1T":
+                while reads(False).decode()=="P1T\n":
                     time.sleep(0.5)
                 unpickler(reads(False),BList)
                 p1mov=1
             else:
                 turnindiChanger(p1, p2)
                 turn=1
-                writes("P1T".encode())
-                time.sleep(0.5)
+                writes("P1T\n".encode())
+                time.sleep(2)
                 writes(pIckler(BList))
-                while not reads(False).decode()=="P2T":
+                while not reads(False).decode()=="P2T\n":
                     pass
-                while reads(False).decode() =="P2T":
+                while reads(False).decode() =="P2T\n":
                     time.sleep(0.5)
                 unpickler(reads(False), BList)
                 turn = 2
