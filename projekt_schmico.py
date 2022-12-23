@@ -422,8 +422,10 @@ def foundPlayer():
         return False
 def isLonley():
     writes("LFG".encode())
-    if reads(False).decode() =="FOUND":
-        return False
+    wait = True
+    while wait:
+        if reads(False).decode() =="FOUND":
+            wait=False
 
 
 
