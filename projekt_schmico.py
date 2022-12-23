@@ -408,6 +408,18 @@ def reads(timeo):
         print(data.decode())
 
     return  data
+def nameexchanger(ownname):
+    ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
+    ser.flushInput()
+    ser.flushOutput()
+    noname = True
+    while noname:
+        ser.write(ownname.encode())
+        det = ser.readline()
+        if det:
+            noname=False
+            return det
+
 
 def getPort():
     ports=[]
@@ -597,7 +609,7 @@ def start_modus():
 
             finded=foundPlayer()
             if finded:
-                time.sleep(5)
+
                 writes(mpnAme.encode())
                 p1name=reads(False).decode()
 
@@ -611,7 +623,7 @@ def start_modus():
             else:
                 #app.display()
                 isLonley()
-                time.sleep(1)
+
                 writes(mpnAme.encode())
                 p2name=reads(False).decode()
                 p1name=mpnAme
