@@ -394,13 +394,12 @@ def unpickler(Plist,Blist):
 def writes(data):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     ser.write(data)
-    print(data)
     ser.close()
 def reads():
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     data=ser.readline()
     ser.close()
-    print(data)
+    print(data.decode())
     return  data
 
 def getPort():
@@ -409,14 +408,13 @@ def getPort():
         ports.append(port.name)
     return ports[0]
 def foundPlayer():
-    writes(0)
-    if reads() == "LFG".encode():
+    if reads().decode() == "LFG":
         writes("FOUND".encode())
         return True
     else:
         return False
 def isLonley():
-    if reads() =="FOUND".encode():
+    if reads().decode() =="FOUND":
         return False
     else:
         writes("LFG".encode())
