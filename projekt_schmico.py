@@ -394,9 +394,12 @@ def unpickler(Plist,Blist):
 def writes(data):
     ser = serial.Serial(getPort())
     ser.write(data)
+    ser.close()
 def reads():
     ser = serial.Serial(getPort())
-    return  ser.readline()
+    data=ser.readline()
+    ser.close()
+    return  data
 
 def getPort():
     ports=[]
