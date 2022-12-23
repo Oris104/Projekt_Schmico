@@ -269,7 +269,8 @@ def confirm():
             if turn == 1:
                 turnindiChanger(p1, p2)
                 waitfor(True)
-
+                player2.border = False
+                player1.border = 2
 
                 turnindiChanger(p1, p2)
                 turn=1
@@ -277,7 +278,8 @@ def confirm():
             else:
                 turnindiChanger(p1, p2)
                 waitfor(False)
-
+                player1.border = False
+                player2.border = 2
 
                 turnindiChanger(p1, p2)
                 turn=2
