@@ -9,7 +9,6 @@ class cButton(gz.PushButton):
         for item in xy:
 
             self.xy.append(item)
-        print(self.xy)
     def uPdate_color(self):
         match self.state:
             case 0:

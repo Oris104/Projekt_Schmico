@@ -289,10 +289,10 @@ def confirm():
         flg = 0
 
     JumpToken = False
-    if p1.tokens<=2:
+    if p1.tokens<=2and p1.tokensbord<=2:
         print("p2 wins")
         app.destroy()
-    if p2.tokens<=2:
+    if p2.tokens<=2 and p2.tokensbord<=2:
         print("p1 wins")
         app.destroy()
 
@@ -450,6 +450,7 @@ def unpickler(Plist,Blist):
             p2.looseToken()
             allo2 -= 1
         if alln1==allo1 and alln2==allo2:
+            pass
             fla=False
 
     for item in Blist:
