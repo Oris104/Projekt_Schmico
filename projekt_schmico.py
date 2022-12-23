@@ -415,6 +415,7 @@ def nameexchanger(ownname):
         ser.write((ownname+"\n").encode())
         det = ser.readline().decode()
         if det:
+            ser.write((ownname + "\n").encode())
             noname=False
             time.sleep(2)
             ser.close()
