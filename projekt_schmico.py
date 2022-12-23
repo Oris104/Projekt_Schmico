@@ -418,6 +418,7 @@ def foundPlayer():
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
     c=5
     while c>0:
+        c-=1
         if ser.readline().decode() == "LFG":
             ser.write("FOUND".encode())
             return True
