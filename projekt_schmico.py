@@ -415,17 +415,21 @@ def getPort():
         ports.append(port.name)
     return ports[0]
 def foundPlayer():
-    if reads(True).decode() == "LFG":
-        writes("FOUND".encode())
-        return True
-    else:
-        return False
+    ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
+    c=5
+    while c>0:
+        if ser.readline().decode() == "LFG":
+            ser.write("FOUND".encode())
+            return True
+    ser.close()
+    return False
 def isLonley():
-    writes("LFG".encode())
+    ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
+    ser.write("LFG".encode())
     wait = True
     while wait:
-        writes("LFG".encode())
-        if reads(False).decode() =="FOUND":
+        ser.write("LFG".encode())
+        if ser.readline().decode() =="FOUND":
             wait=False
 
 
@@ -584,11 +588,7 @@ def start_modus():
         if MUltipl:
 
 
-            finded = False
-            i=5
-            while i>0:
-                i-=1
-                finded=foundPlayer()
+            finded=foundPlayer()
             if finded:
                 time.sleep(1)
                 writes(mpnAme.encode())
