@@ -265,7 +265,6 @@ def confirm():
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
                 turnindiChanger(p1, p2)
-                turn=2
                 writes("P2T".encode())
                 time.sleep(0.5)
                 writes(pIckler(BList))
@@ -274,7 +273,6 @@ def confirm():
                 while reads().decode()=="P1T":
                     time.sleep(0.5)
                 unpickler(reads(),BList)
-                turn = 1
                 p1mov=1
             else:
                 turnindiChanger(p1, p2)
@@ -400,8 +398,7 @@ def reads():
     print(getPort())
     data=ser.readline()
     ser.close()
-    if data:
-        print(data.decode())
+
     return  data
 
 def getPort():
@@ -548,6 +545,7 @@ def start_modus():
             box12.visible = False
             picture = gz.Picture(box2, image="frog.png") #Change the path if necessary
             box2.bg = "green"
+            picture.visible=True
             hasconfirmed=True
         else:
             error_box.visible = True
@@ -574,12 +572,19 @@ def start_modus():
     if hasconfirmed:
 
         if MUltipl:
-            if foundPlayer():
+            i=5
+            finded=False
+            while i>0:
+                if foundPlayer():
+                    finded=True
+                i += -1
+            if finded:
                 time.sleep(0.2)
                 p1name=reads().decode()
                 time.sleep(0.2)
                 writes(mpnAme.encode())
                 isP1=False
+                p2name=mpnAme
                 turn=2
                 p2mov=0
                 p1mov=0
@@ -591,6 +596,7 @@ def start_modus():
                 time.sleep(0.2)
                 writes(mpnAme.encode())
                 time.sleep(0.5)
+                p1name=mpnAme
                 p2name=reads().decode()
         window.destroy()
         text_player1.value = p1name + ": "
