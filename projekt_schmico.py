@@ -534,7 +534,7 @@ for item in player_anzeige2:
 
 def start_modus():
     global p1name,p2name,mpnAme,MUltipl,isP1,turn
-    global p1mov,p2mov,hasconfirmed
+    global p1mov,p2mov,hasconfirmed,selectedButton
     f1=False
     f2=False
     if int(mode.value) ==1:
@@ -572,7 +572,7 @@ def start_modus():
     if hasconfirmed:
 
         if MUltipl:
-            app.display()
+
             i=5
             finded=False
             while i>0:
@@ -580,8 +580,11 @@ def start_modus():
                     finded=True
                 i += -1
             if finded:
-                time.sleep(0.2)
+                while not reads().decode()=="n1c":
+                    time.sleep(0.2)
                 p1name=reads().decode()
+                time.sleep(0.2)
+                writes("n2c".encode())
                 time.sleep(0.2)
                 writes(mpnAme.encode())
                 isP1=False
@@ -589,14 +592,19 @@ def start_modus():
                 turn=2
                 p2mov=0
                 p1mov=0
+                selectedButton=True
                 confirm()
             else:
-
+                #app.display()
                 while isLonley():
                     time.sleep(0.5)
+                writes("n1c".encode())
+
                 time.sleep(0.2)
                 writes(mpnAme.encode())
                 time.sleep(0.5)
+                while not reads().decode() == "n2c":
+                    time.sleep(0.2)
                 p1name=mpnAme
                 p2name=reads().decode()
         window.destroy()
