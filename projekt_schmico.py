@@ -404,8 +404,6 @@ def reads(timeo):
         if timeo:
             c+=-1
     ser.close()
-    if data:
-        print(data.decode())
 
     return  data
 def nameexchanger(ownname):
