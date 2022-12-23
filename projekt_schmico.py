@@ -605,7 +605,6 @@ def start_modus():
 
                 time.sleep(1)
                 writes(mpnAme.encode())
-                time.sleep(0.5)
                 while not reads().decode() == "n2c":
                     time.sleep(0.2)
                 p1name=mpnAme
