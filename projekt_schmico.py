@@ -265,26 +265,12 @@ def confirm():
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
                 turnindiChanger(p1, p2)
-                writes("P2T\n".encode())
-                time.sleep(2)
-                writes(pIckler(BList))
-                while not reads(False).decode()=="P1T\n":
-                    pass
-                while reads(False).decode()=="P1T\n":
-                    time.sleep(0.5)
-                unpickler(reads(False),BList)
+                waitfor(True)
                 p1mov=1
             else:
                 turnindiChanger(p1, p2)
                 turn=1
-                writes("P1T\n".encode())
-                time.sleep(2)
-                writes(pIckler(BList))
-                while not reads(False).decode()=="P2T\n":
-                    pass
-                while reads(False).decode() =="P2T\n":
-                    time.sleep(0.5)
-                unpickler(reads(False), BList)
+                waitfor(False)
                 turn = 2
                 p2mov=1
         flg = 0
@@ -367,6 +353,28 @@ class mueleListe(list):
         else:
             return False
 
+def waitfor(isp1):
+    global BList
+    ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
+    if p1:
+        ser.write("P2T\n")
+        time.sleep(1)
+        ser.write(pIckler(BList))
+
+        while not ser.readline().decode()=="P1T\n":
+            pass
+    else:
+        ser.write("P1T\n")
+        time.sleep(1)
+        ser.write(pIckler(BList))
+        while not ser.readline().decode()=="P2T\n":
+            pass
+    data=False
+    while not data:
+        data=ser.readline()
+    unpickler(data,BList)
+    ser.close()
+
 
 def canRemove(butoon):
     global MList
@@ -383,6 +391,7 @@ def pIckler(Blist):
 
 
 def unpickler(Plist,Blist):
+    Plist=pickle.loads(Plist)
     for item in Plist:
         x = Plist.index(item)
         Blist[x].state = item
