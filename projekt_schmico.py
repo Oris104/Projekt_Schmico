@@ -597,7 +597,7 @@ def start_modus():
 
             finded=foundPlayer()
             if finded:
-                time.sleep(1)
+                time.sleep(5)
                 writes(mpnAme.encode())
                 p1name=reads(False).decode()
 
