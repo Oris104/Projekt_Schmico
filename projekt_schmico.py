@@ -7,7 +7,7 @@ import serial
 import pickle
 import time
 # variabeln
-mode = "Single Player Mode"  # or "Multi Player mode"
+modee = "Single Player Mode"  # or "Multi Player mode"
 color_standart = "blue"  # standart farbe für spielsteine des spielfelds
 color_player1 = "green"  # standart farbe für spielsteine des spielers 1
 color_player2 = "red"  # standart farbe für spielsteine des spielers 2
@@ -526,7 +526,7 @@ def isLonley():
 app = gz.App(title="Programm Schmico")
 
 titel0 = gz.Box(app, align="top", width="fill")
-text_titel = gz.Text(titel0, text=f"Programm Schmico: {mode}", align="top", width=750)
+text_titel = gz.Text(titel0, text=f"Programm Schmico: {modee}", align="top", width=750)
 
 # Spielfeld initialisieren
 spielfeld = gz.Box(app, layout="grid", align="top", height="fill", width="fill")
@@ -634,6 +634,7 @@ for item in player_anzeige2:
 def start_modus():
     global p1name,p2name,mpnAme,MUltipl,isP1,turn
     global p1mov,p2mov,hasconfirmed,selectedButton
+    global modee
     f1=False
     f2=False
     if int(mode.value) ==1:
@@ -642,6 +643,8 @@ def start_modus():
             error_box.visible = False
             box1.visible = False
             box12.visible = False
+            modee = "Multiplayer Mode"
+            text_titel.value=f"Programm Schmico: {modee}"
             picture = gz.Picture(box2, image="Resources\\frog.png") #Change the path if necessarye
             box2.bg = "green"
             app.update()
@@ -652,6 +655,9 @@ def start_modus():
             error_msg.value = "Please enter a name!"
 
     else:
+        modee = "Singleplayer Mode"
+        text_titel.value = f"Programm Schmico: {modee}"
+
         if tb11.value != "Please enter a name for Player 1.":
             p1name = str(tb11.value)
             error_box.visible = False
