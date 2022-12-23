@@ -410,7 +410,6 @@ def reads(timeo):
     return  data
 def nameexchanger(ownname):
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
-    ser.flushInput()
     noname = True
     while noname:
         ser.writelines(ownname.encode())
@@ -430,12 +429,13 @@ def foundPlayer():
     c=5
     while c>0:
         c-=1
-        if ser.readline().decode() == "LFG":
+        det =ser.readline().decode()
+        if det == "LFG":
             ser.writelines("FOUND".encode())
-            ser.flushInput()
             return True
         else:
-            print("no game")
+
+            print("no game"+det)
     ser.close()
     return False
 def isLonley():
@@ -445,7 +445,6 @@ def isLonley():
     while wait:
         ser.writelines("LFG".encode())
         if ser.readline().decode() =="FOUND":
-            ser.flushInput()
             wait=False
         else:
             print("not found")
