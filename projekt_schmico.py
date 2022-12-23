@@ -405,14 +405,14 @@ def waitfor(isp1):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     if isp1:
         ser.write("P2T\n".encode())
-        time.sleep(3)
+        time.sleep(0.1)
         ser.write(pIckler(BList))
 
         while not ser.readline().decode()=="P1T\n":
             pass
     else:
         ser.write("P1T\n".encode())
-        time.sleep(3)
+        time.sleep(0.1)
         ser.write(pIckler(BList))
         while not ser.readline().decode()=="P2T\n":
             pass
