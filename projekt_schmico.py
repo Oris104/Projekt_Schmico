@@ -266,11 +266,14 @@ def confirm():
             if turn == 1:
                 turnindiChanger(p1, p2)
                 waitfor(True)
+                turnindiChanger(p1, p2)
                 p1mov=1
+                turn=1
             else:
                 turnindiChanger(p1, p2)
                 turn=1
                 waitfor(False)
+                turnindiChanger(p1, p2)
                 turn = 2
                 p2mov=1
         flg = 0
