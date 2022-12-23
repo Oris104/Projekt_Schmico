@@ -582,6 +582,7 @@ def start_modus():
                     finded=True
                 i += -1
             if finded:
+                time.sleep(1)
                 writes("ready".encode())
                 while not reads().decode() == "ready":
                     writes("ready".encode())
