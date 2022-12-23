@@ -421,11 +421,10 @@ def foundPlayer():
     else:
         return False
 def isLonley():
+    writes("LFG".encode())
     if reads(False).decode() =="FOUND":
         return False
-    else:
-        writes("LFG".encode())
-        return True
+
 
 
 app = gz.App(title="Programm Schmico")
