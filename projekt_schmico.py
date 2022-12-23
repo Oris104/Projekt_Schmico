@@ -422,6 +422,8 @@ def foundPlayer():
         if ser.readline().decode() == "LFG":
             ser.write("FOUND".encode())
             return True
+        else:
+            print("no game")
     ser.close()
     return False
 def isLonley():
@@ -432,6 +434,8 @@ def isLonley():
         ser.write("LFG".encode())
         if ser.readline().decode() =="FOUND":
             wait=False
+        else:
+            print("not found")
 
 
 
