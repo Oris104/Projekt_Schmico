@@ -416,7 +416,9 @@ def nameexchanger(ownname):
         det = ser.readline().decode()
         if det:
             noname=False
-            return det
+            time.sleep(2)
+            ser.close()
+            return det.strip()
 
 
 def getPort():
@@ -607,7 +609,6 @@ def start_modus():
 
             finded=foundPlayer()
             if finded:
-                time.sleep(2)
 
                 p1name=nameexchanger(mpnAme)
 
