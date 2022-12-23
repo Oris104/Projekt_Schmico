@@ -431,7 +431,7 @@ def foundPlayer():
         c-=1
         det =ser.readline().decode()
         if det == "LFG":
-            ser.write("FOUND".encode())
+            ser.write("FOUND\n".encode())
             return True
         else:
 
@@ -440,7 +440,7 @@ def foundPlayer():
     return False
 def isLonley():
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
-    ser.write("LFG".encode())
+    ser.write("LFG\n".encode())
     wait = True
     while wait:
         if ser.readline().decode() =="FOUND":
