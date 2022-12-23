@@ -538,10 +538,6 @@ MList.append(mueleListe(BList[8], BList[12], BList[17], ))
 MList.append(mueleListe(BList[5], BList[13], BList[20], ))
 MList.append(mueleListe(BList[2], BList[14], BList[23], ))
 
-for item in MList:
-    for thing in item:
-        thing.text += str(dcount)
-    dcount += 1
 
 error_box = gz.Box(app, align="bottom", width="fill", height=27)
 
