@@ -266,12 +266,12 @@ def confirm():
             if turn == 1:
                 turnindiChanger(p1, p2)
                 turn=2
-                writes("P2T")
+                writes("P2T".encode())
                 time.sleep(0.5)
                 writes(pIckler(BList))
-                while not reads()=="P1T":
+                while not reads().decode()=="P1T":
                     pass
-                while reads()=="P1T":
+                while reads().decode()=="P1T":
                     time.sleep(0.5)
                 unpickler(reads(),BList)
                 turn = 1
@@ -279,12 +279,12 @@ def confirm():
             else:
                 turnindiChanger(p1, p2)
                 turn=1
-                writes("P1T")
+                writes("P1T".encode())
                 time.sleep(0.5)
                 writes(pIckler(BList))
-                while not reads()=="P2T":
+                while not reads().decode()=="P2T":
                     pass
-                while reads()=="P2T":
+                while reads().decode() =="P2T":
                     time.sleep(0.5)
                 unpickler(reads(), BList)
                 turn = 2
@@ -400,7 +400,8 @@ def reads():
     print(getPort())
     data=ser.readline()
     ser.close()
-    print(data.decode())
+    if data:
+        print(data.decode())
     return  data
 
 def getPort():
