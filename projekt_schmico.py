@@ -397,6 +397,7 @@ def writes(data):
     ser.close()
 def reads():
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
+    print(getPort())
     data=ser.readline()
     ser.close()
     print(data.decode())
@@ -574,9 +575,9 @@ def start_modus():
         if MUltipl:
             if foundPlayer():
                 time.sleep(0.2)
-                p1name=reads()
+                p1name=reads().decode()
                 time.sleep(0.2)
-                writes(mpnAme)
+                writes(mpnAme.encode())
                 isP1=False
                 turn=2
                 p2mov=0
@@ -587,9 +588,9 @@ def start_modus():
                 while isLonley():
                     pass
                 time.sleep(0.2)
-                writes(mpnAme)
+                writes(mpnAme.encode())
                 time.sleep(0.5)
-                p2name=reads()
+                p2name=reads().decode()
         window.destroy()
         text_player1.value = p1name + ": "
         text_player2.value = p2name + ": "
