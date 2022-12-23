@@ -663,7 +663,8 @@ def start_modus():
 
         if MUltipl:
 
-
+            error_box.visible = True
+            error_msg.value = "Suche nach Host\n"
             finded=foundPlayer()
             if finded:
 
@@ -675,13 +676,11 @@ def start_modus():
                 p2mov=0
                 p1mov=0
                 selectedButton=True
-                window.destroy()
-                text_player1.value = p1name + ": "
-                text_player2.value = p2name + ": "
-
+                error_msg.value = "Warte auf Zug gegner\n"
                 confirm()
 
             else:
+                error_msg.value = "Hoste Spiel\n"
                 #app.display()
                 isLonley()
 
