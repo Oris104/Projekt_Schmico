@@ -393,12 +393,15 @@ def writes(data):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     ser.write(data)
     ser.close()
-def reads():
+def reads(timeo):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     print(getPort())
     data=ser.readline()
-    while not data:
+    c=5
+    while not data and c >0:
         data=ser.readline()
+        if timeo:
+            c+=-1
     ser.close()
     if data:
         print(data.decode())
@@ -411,13 +414,13 @@ def getPort():
         ports.append(port.name)
     return ports[0]
 def foundPlayer():
-    if reads().decode() == "LFG":
+    if reads(True).decode() == "LFG":
         writes("FOUND".encode())
         return True
     else:
         return False
 def isLonley():
-    if reads().decode() =="FOUND":
+    if reads(False).decode() =="FOUND":
         return False
     else:
         writes("LFG".encode())
@@ -577,7 +580,7 @@ def start_modus():
 
         if MUltipl:
 
-            i=5
+            i=1
             finded=False
             while i>0:
                 if foundPlayer():
@@ -585,24 +588,9 @@ def start_modus():
                 i += -1
             if finded:
                 time.sleep(1)
-                writes("ready".encode())
-                waiting = True
-                while waiting:
-                    det = reads().decode()
-                    if det =="ready":
-                        writes("readyup".encode())
-                    elif det == "readyup":
-                        waiting=False
-                        time.sleep(1)
-                    else:
-                        writes("ready".encode())
                 writes(mpnAme.encode())
-                gotname = False
-                while not gotname:
-                    dat = reads().decode()
-                    if not dat == "ready":
-                        p1name = dat
-                        gotname = True
+                p1name=reads(False)
+
                 p2name = mpnAme
                 isP1=False
                 turn=2
@@ -615,24 +603,8 @@ def start_modus():
                 while isLonley():
                     time.sleep(0.5)
                 time.sleep(3)
-                writes("ready".encode())
-                waiting = True
-                while waiting:
-                    det = reads().decode()
-                    if det == "ready":
-                        writes("readyup".encode())
-                    elif det == "readyup":
-                        time.sleep(1)
-                        waiting = False
-                    else:
-                        writes("ready".encode())
                 writes(mpnAme.encode())
-                gotname=False
-                while not gotname:
-                    dat = reads().decode()
-                    if not dat=="ready":
-                        p2name=dat
-                        gotname=True
+                p2name=reads(False)
                 p1name=mpnAme
         window.destroy()
         text_player1.value = p1name + ": "
