@@ -587,7 +587,7 @@ def start_modus():
             else:
 
                 while isLonley():
-                    pass
+                    time.sleep(0.5)
                 time.sleep(0.2)
                 writes(mpnAme.encode())
                 time.sleep(0.5)
