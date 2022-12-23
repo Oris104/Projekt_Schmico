@@ -399,10 +399,10 @@ def pIckler(Blist):
 
 def unpickler(Plist,Blist):
     Plist=pickle.loads(Plist)
-    for item in Plist:
-        x = Plist.index(item)
-        Blist[x].state = item
-        Blist[x].uPdate_color()
+    for item in Blist:
+        x = Blist.index(item)
+        item.state = Plist[x]
+        item.uPdate_color()
     print(Plist)
 
 
