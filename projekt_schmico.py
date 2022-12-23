@@ -411,10 +411,8 @@ def reads(timeo):
 def nameexchanger(ownname):
     ser = serial.Serial(getPort(), baudrate=9600, timeout=1)
     ser.flushInput()
-    ser.flushOutput()
     noname = True
     while noname:
-        ser.flushOutput()
         ser.writelines(ownname.encode())
         det = ser.readline().decode()
         if det:
@@ -445,7 +443,6 @@ def isLonley():
     ser.writelines("LFG".encode())
     wait = True
     while wait:
-        ser.flushOutput()
         ser.writelines("LFG".encode())
         if ser.readline().decode() =="FOUND":
             ser.flushInput()
