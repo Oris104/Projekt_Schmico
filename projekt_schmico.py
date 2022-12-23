@@ -415,7 +415,7 @@ def nameexchanger(ownname):
     noname = True
     while noname:
         ser.write(ownname.encode())
-        det = ser.readline()
+        det = ser.readline().decode()
         if det:
             noname=False
             return det
@@ -610,8 +610,7 @@ def start_modus():
             finded=foundPlayer()
             if finded:
 
-                writes(mpnAme.encode())
-                p1name=reads(False).decode()
+                p1name=nameexchanger(mpnAme)
 
                 p2name = mpnAme
                 isP1=False
@@ -624,8 +623,7 @@ def start_modus():
                 #app.display()
                 isLonley()
 
-                writes(mpnAme.encode())
-                p2name=reads(False).decode()
+                p2name=nameexchanger(mpnAme)
                 p1name=mpnAme
         window.destroy()
         text_player1.value = p1name + ": "
