@@ -580,16 +580,13 @@ def start_modus():
 
         if MUltipl:
 
-            i=1
-            finded=False
-            while i>0:
-                if foundPlayer():
-                    finded=True
-                i += -1
+
+            finded = False
+            finded=foundPlayer()
             if finded:
                 time.sleep(1)
                 writes(mpnAme.encode())
-                p1name=reads(False)
+                p1name=reads(False).decode()
 
                 p2name = mpnAme
                 isP1=False
@@ -600,11 +597,10 @@ def start_modus():
                 confirm()
             else:
                 #app.display()
-                while isLonley():
-                    time.sleep(0.5)
-                time.sleep(3)
+                isLonley()
+                time.sleep(1)
                 writes(mpnAme.encode())
-                p2name=reads(False)
+                p2name=reads(False).decode()
                 p1name=mpnAme
         window.destroy()
         text_player1.value = p1name + ": "
