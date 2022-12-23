@@ -25,7 +25,7 @@ JumpToken = False
 removestonep1 = False
 removestonep2 = False
 jsSelec = False
-maxtkk=9
+maxtkk=4
 p1name="lmao"
 p2name="LamO"
 hasconfirmed=False
@@ -406,20 +406,49 @@ def pIckler(Blist):
 
 
 def unpickler(Plist,Blist):
+    alln0 = 0
+    alln1 = 0
+    alln2 = 0
+    allo0 = 0
+    allo1 = 0
+    allo2 = 0
     Plist=pickle.loads(Plist)
+    for item in Plist:
+        if item==0:
+            alln0+=1
+        elif item==1:
+            alln1+=1
+        elif item==2:
+            alln2+=1
+    for item in Blist:
+        if item.state==0:
+            allo0+=1
+        elif item.state==1:
+            allo1+=1
+        elif item.state==2:
+            allo2+=1
+    fla = True
+    while fla:
+        if alln1>allo1:
+            p1.placeToken()
+            alln1-=1
+        if alln1<allo1:
+            p1.looseToken()
+            allo1-=1
+        if alln2 > allo2:
+            p2.placeToken()
+            alln2 -= 1
+        if alln2 < allo2:
+            p2.looseToken()
+            allo2 -= 1
+
     for item in Blist:
         x = Blist.index(item)
-        if item.state == 0 and Plist[x]==1:
-            p1.placeToken()
-        if item.state == 0 and Plist[x]==2:
-            p2.placeToken()
-        if item.state==1 and Plist[x]==0:
-            p1.looseToken()
-        if item.state==2 and Plist[x]==0:
-            p2.looseToken()
+
+
         item.state = Plist[x]
         item.uPdate_color()
-    print(Plist)
+
 
 
 def writes(data):
