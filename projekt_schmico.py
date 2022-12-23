@@ -684,7 +684,8 @@ def start_modus():
 
                 p2name=nameexchanger(mpnAme)
                 p1name=mpnAme
-        window.destroy()
+                window.destroy()
+
         text_player1.value = p1name + ": "
         text_player2.value = p2name + ": "
 
