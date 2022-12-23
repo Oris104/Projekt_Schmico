@@ -483,7 +483,7 @@ def nameexchanger(ownname):
         if det:
             ser.write((ownname + "\n").encode())
             noname=False
-            time.sleep(2)
+            time.sleep(3)
             ser.close()
             return det.strip()
 
