@@ -268,11 +268,11 @@ def confirm():
                 writes("P2T".encode())
                 time.sleep(0.5)
                 writes(pIckler(BList))
-                while not reads().decode()=="P1T":
+                while not reads(False).decode()=="P1T":
                     pass
-                while reads().decode()=="P1T":
+                while reads(False).decode()=="P1T":
                     time.sleep(0.5)
-                unpickler(reads(),BList)
+                unpickler(reads(False),BList)
                 p1mov=1
             else:
                 turnindiChanger(p1, p2)
@@ -280,11 +280,11 @@ def confirm():
                 writes("P1T".encode())
                 time.sleep(0.5)
                 writes(pIckler(BList))
-                while not reads().decode()=="P2T":
+                while not reads(False).decode()=="P2T":
                     pass
-                while reads().decode() =="P2T":
+                while reads(False).decode() =="P2T":
                     time.sleep(0.5)
-                unpickler(reads(), BList)
+                unpickler(reads(False), BList)
                 turn = 2
                 p2mov=1
         flg = 0
@@ -414,6 +414,7 @@ def nameexchanger(ownname):
     ser.flushOutput()
     noname = True
     while noname:
+        ser.flushOutput()
         ser.write(ownname.encode())
         det = ser.readline().decode()
         if det:
