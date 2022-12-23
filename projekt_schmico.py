@@ -128,8 +128,9 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 1
                 JumpToken.uPdate_color()
-                selectedButton.state = 0
-                selectedButton.uPdate_color()
+                if selectedButton.state:
+                    selectedButton.state = 0
+                    selectedButton.uPdate_color()
             JumpToken = but
             p1mov = 1
         elif turn == 2 and but.state == 2 and not removestonep2:
@@ -138,8 +139,9 @@ def change_colors(but):
             if JumpToken:
                 JumpToken.state = 2
                 JumpToken.uPdate_color()
-                selectedButton.state = 0
-                selectedButton.uPdate_color()
+                if selectedButton.state:
+                    selectedButton.state = 0
+                    selectedButton.uPdate_color()
             JumpToken = but
             p2mov = 1
         if turn == 1 and but.state == 0 and jsSelec and canSLide(but, JumpToken) and not removestonep1:
@@ -294,9 +296,9 @@ def confirm():
 def turnindiChanger(snake, frosch):
     global p1rem,p2rem
     global selectedButton
-    global turn,fla
+    global turn
     global MUltipl
-
+    fla = True
 
     while(fla):
         if len(player_anzeige1)>p1.tokens:
@@ -342,11 +344,13 @@ class mueleListe(list):
         self.flag = False
 
     def CheckiScore(self,isp1):
+        global MUltipl
         x = 0
+
         sum = []
         for item in self:
             sum.append(item.state)
-        if (sum[0] == 1 and isp1) or (sum[0] == 2 and not isp1):
+        if (sum[0] == 1 and (isp1 or not MUltipl )) or (sum[0] == 2 and (not isp1 or not MUltipl)):
             if all(x == sum[0] for x in sum) and not self.flag:
                 self.flag = True
                 return True
@@ -635,8 +639,9 @@ def start_modus():
             error_box.visible = False
             box1.visible = False
             box12.visible = False
-            picture = gz.Picture(box2, image="frog.png") #Change the path if necessary
+            picture = gz.Picture(box2, image="frog.png") #Change the path if necessarye
             box2.bg = "green"
+            app.update()
 
             hasconfirmed=True
         else:
@@ -685,7 +690,8 @@ def start_modus():
                 p2name=nameexchanger(mpnAme)
                 p1name=mpnAme
                 window.destroy()
-
+        else:
+            window.destroy()
         text_player1.value = p1name + ": "
         text_player2.value = p2name + ": "
 
