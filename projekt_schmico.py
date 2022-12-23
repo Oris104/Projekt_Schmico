@@ -430,7 +430,7 @@ def foundPlayer():
     while c>0:
         c-=1
         det =ser.readline().decode()
-        if det == "LFG":
+        if det == "LFG\n":
             ser.write("FOUND\n".encode())
             return True
         else:
@@ -444,7 +444,7 @@ def isLonley():
     wait = True
     while wait:
         ser.write("LFG\n".encode())
-        if ser.readline().decode() =="FOUND":
+        if ser.readline().decode() =="FOUND\n":
             wait=False
         else:
             print("not found")
