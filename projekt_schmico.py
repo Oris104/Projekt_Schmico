@@ -582,9 +582,10 @@ def start_modus():
                     finded=True
                 i += -1
             if finded:
+                writes("ready".encode())
                 while not reads().decode() == "ready":
                     writes("ready".encode())
-                    writes(mpnAme.encode())
+                writes(mpnAme.encode())
                 gotname = False
                 while not gotname:
                     dat = reads().decode()
@@ -603,9 +604,10 @@ def start_modus():
                 while isLonley():
                     time.sleep(0.5)
                 time.sleep(3)
+                writes("ready".encode())
                 while not reads().decode()=="ready":
                     writes("ready".encode())
-                    writes(mpnAme.encode())
+                writes(mpnAme.encode())
                 gotname=False
                 while not gotname:
                     dat = reads().decode()
