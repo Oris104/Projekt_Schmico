@@ -598,6 +598,7 @@ def start_modus():
                 #app.display()
                 while isLonley():
                     time.sleep(0.5)
+                time.sleep(3)
                 writes("n1c".encode())
 
                 time.sleep(0.2)
