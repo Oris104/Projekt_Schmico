@@ -398,6 +398,8 @@ def reads():
     print(getPort())
     data=ser.readline()
     ser.close()
+    if data:
+        print(data.decode())
 
     return  data
 
@@ -585,7 +587,7 @@ def start_modus():
                 p1name=reads().decode()
                 time.sleep(0.2)
                 writes("n2c".encode())
-                time.sleep(0.2)
+                time.sleep(1)
                 writes(mpnAme.encode())
                 isP1=False
                 p2name=mpnAme
@@ -601,7 +603,7 @@ def start_modus():
                 time.sleep(3)
                 writes("n1c".encode())
 
-                time.sleep(0.2)
+                time.sleep(1)
                 writes(mpnAme.encode())
                 time.sleep(0.5)
                 while not reads().decode() == "n2c":
