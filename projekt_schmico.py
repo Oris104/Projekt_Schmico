@@ -25,7 +25,7 @@ JumpToken = False
 removestonep1 = False
 removestonep2 = False
 jsSelec = False
-maxtkk=9
+maxtkk=5
 p1name="lmao"
 p2name="LamO"
 hasconfirmed=False
@@ -409,6 +409,14 @@ def unpickler(Plist,Blist):
     Plist=pickle.loads(Plist)
     for item in Blist:
         x = Blist.index(item)
+        if item.state == 0 and Plist[x]==1:
+            p1.placeToken()
+        if item.state == 0 and Plist[x]==2:
+            p2.placeToken()
+        if item.state==1 and Plist[x]==0:
+            p1.looseToken()
+        if item.state==2 and Plist[x]==0:
+            p2.looseToken()
         item.state = Plist[x]
         item.uPdate_color()
     print(Plist)
