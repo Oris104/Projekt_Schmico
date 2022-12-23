@@ -361,6 +361,7 @@ class mueleListe(list):
 def waitfor(isp1):
     global BList
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
+    app.display()
     if isp1:
         ser.write("P2T\n".encode())
         time.sleep(0.1)
