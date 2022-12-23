@@ -295,6 +295,7 @@ def turnindiChanger(snake, frosch):
     global p1rem,p2rem
     global selectedButton
     global turn,fla
+    global MUltipl
 
 
     while(fla):
@@ -324,6 +325,12 @@ def turnindiChanger(snake, frosch):
             selectedButton = False
             if frosch.tokensbord <= frosch.tokens and frosch.tokensbord>0:
                 player_anzeige2[frosch.tokensbord - 1].bg = "purple"
+    if MUltipl:
+        if frosch.tokensbord <= frosch.tokens and frosch.tokensbord > 0:
+            player_anzeige2[frosch.tokensbord - 1].bg = "purple"
+        if snake.tokensbord <= snake.tokens and snake.tokensbord > 0:
+            player_anzeige1[snake.tokensbord - 1].bg = "purple"
+
     print(snake.tokensbord)
     print(frosch.tokensbord)
 class mueleListe(list):
