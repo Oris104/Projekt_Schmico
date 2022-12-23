@@ -682,7 +682,6 @@ def start_modus():
 
             else:
                 error_msg.value = "Hoste Spiel\n"
-                #app.display()
                 isLonley()
 
                 p2name=nameexchanger(mpnAme)
