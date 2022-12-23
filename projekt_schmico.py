@@ -251,7 +251,7 @@ def confirm():
             elif turn == 2:
                 p2mov = 1
                 removestonep2 = True
-        elif p1mov == 0 or p2mov == 0 and not MUltipl:
+        elif (p1mov == 0 or p2mov == 0 )and not MUltipl:
 
             if turn == 1:
                 turnindiChanger(p1, p2)
@@ -585,9 +585,9 @@ def start_modus():
                 while not reads().decode()=="n1c":
                     time.sleep(0.2)
                 p1name=reads().decode()
-                time.sleep(0.2)
+                time.sleep(0.5)
                 writes("n2c".encode())
-                time.sleep(1)
+                time.sleep(0.5)
                 writes(mpnAme.encode())
                 isP1=False
                 p2name=mpnAme
@@ -609,6 +609,7 @@ def start_modus():
                 while not reads().decode() == "n2c":
                     time.sleep(0.2)
                 p1name=mpnAme
+                time.sleep(0.5)
                 p2name=reads().decode()
         window.destroy()
         text_player1.value = p1name + ": "
