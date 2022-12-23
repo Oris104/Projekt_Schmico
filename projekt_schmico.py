@@ -582,15 +582,17 @@ def start_modus():
                     finded=True
                 i += -1
             if finded:
-                while not reads().decode()=="n1c":
-                    time.sleep(0.2)
-                p1name=reads().decode()
-                time.sleep(0.5)
-                writes("n2c".encode())
-                time.sleep(0.5)
-                writes(mpnAme.encode())
+                while not reads().decode() == "ready":
+                    writes("ready".encode())
+                    writes(mpnAme.encode())
+                gotname = False
+                while not gotname:
+                    dat = reads().decode()
+                    if not dat == "ready":
+                        p1name = dat
+                        gotname = True
+                p2name = mpnAme
                 isP1=False
-                p2name=mpnAme
                 turn=2
                 p2mov=0
                 p1mov=0
@@ -601,15 +603,16 @@ def start_modus():
                 while isLonley():
                     time.sleep(0.5)
                 time.sleep(3)
-                writes("n1c".encode())
-
-                time.sleep(0.5)
-                writes(mpnAme.encode())
-                while not reads().decode() == "n2c":
-                    time.sleep(0.2)
+                while not reads().decode()=="ready":
+                    writes("ready".encode())
+                    writes(mpnAme.encode())
+                gotname=False
+                while not gotname:
+                    dat = reads().decode()
+                    if not dat=="ready":
+                        p2name=dat
+                        gotname=True
                 p1name=mpnAme
-                time.sleep(0.5)
-                p2name=reads().decode()
         window.destroy()
         text_player1.value = p1name + ": "
         text_player2.value = p2name + ": "
