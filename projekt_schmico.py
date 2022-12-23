@@ -216,6 +216,7 @@ def confirm():
     global removestonep2
     global JumpToken
     global MUltipl
+    global isP1
     scoreCHeck = False
     if selectedButton:
         for item in BList:
@@ -241,7 +242,7 @@ def confirm():
                 p2.movecor()
             item.uPdate_color()
         for itemm in MList:
-            if itemm.CheckiScore():
+            if itemm.CheckiScore(isP1):
                 scoreCHeck = True
         if scoreCHeck:
             selectedButton = False
@@ -335,12 +336,12 @@ class mueleListe(list):
         self.append(B3)
         self.flag = False
 
-    def CheckiScore(self):
+    def CheckiScore(self,isp1):
         x = 0
         sum = []
         for item in self:
             sum.append(item.state)
-        if sum[0] == 1 or sum[0] == 2:
+        if (sum[0] == 1 and isp1) or (sum[0] == 2 and not isp1):
             if all(x == sum[0] for x in sum) and not self.flag:
                 self.flag = True
                 return True
