@@ -545,7 +545,7 @@ def start_modus():
             box12.visible = False
             picture = gz.Picture(box2, image="frog.png") #Change the path if necessary
             box2.bg = "green"
-            picture.visible=True
+
             hasconfirmed=True
         else:
             error_box.visible = True
@@ -572,6 +572,7 @@ def start_modus():
     if hasconfirmed:
 
         if MUltipl:
+            app.display()
             i=5
             finded=False
             while i>0:
