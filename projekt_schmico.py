@@ -591,6 +591,7 @@ def start_modus():
                         writes("readyup".encode())
                     elif det == "readyup":
                         waiting=False
+                        time.sleep(1)
                     else:
                         writes("ready".encode())
                 writes(mpnAme.encode())
@@ -619,6 +620,7 @@ def start_modus():
                     if det == "ready":
                         writes("readyup".encode())
                     elif det == "readyup":
+                        time.sleep(1)
                         waiting = False
                     else:
                         writes("ready".encode())
