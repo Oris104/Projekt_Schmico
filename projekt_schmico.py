@@ -391,7 +391,7 @@ def unpickler(Plist,Blist):
 
 def writes(data):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
-    ser.write(data)
+    print(ser.write(data))
     ser.close()
 def reads(timeo):
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
@@ -424,6 +424,7 @@ def isLonley():
     writes("LFG".encode())
     wait = True
     while wait:
+        writes("LFG".encode())
         if reads(False).decode() =="FOUND":
             wait=False
 
