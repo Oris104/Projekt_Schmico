@@ -443,6 +443,7 @@ def isLonley():
     ser.write("LFG\n".encode())
     wait = True
     while wait:
+        ser.write("LFG\n".encode())
         if ser.readline().decode() =="FOUND":
             wait=False
         else:
