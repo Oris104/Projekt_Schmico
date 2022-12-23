@@ -445,13 +445,14 @@ def isLonley():
     ser.write("LFG".encode())
     wait = True
     while wait:
+        ser.flushOutput()
         ser.write("LFG".encode())
         if ser.readline().decode() =="FOUND":
             ser.flushInput()
             wait=False
         else:
             print("not found")
-
+    ser.close()
 
 
 app = gz.App(title="Programm Schmico")
@@ -610,6 +611,7 @@ def start_modus():
 
             finded=foundPlayer()
             if finded:
+                time.sleep(2)
 
                 p1name=nameexchanger(mpnAme)
 
