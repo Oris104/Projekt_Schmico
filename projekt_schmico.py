@@ -264,7 +264,7 @@ def confirm():
             selectedButton = False
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
-                turn=1
+
                 turnindiChanger(p1, p2)
                 waitfor(True)
                 for item in BList:
@@ -294,7 +294,6 @@ def confirm():
                 turn=1
                 p1mov=1
             else:
-                turn = 2
                 turnindiChanger(p1, p2)
                 waitfor(False)
                 for item in BList:
@@ -360,8 +359,7 @@ def turnindiChanger(snake, frosch):
                 player_anzeige1[snake.tokensbord - 1].bg = "purple"
             selectedButton = False
     else:
-        player1.border = False
-        player2.border = 2
+
         player1.border = 2
         player2.border = False
         text_player1.value = ">" + text_player1.value
