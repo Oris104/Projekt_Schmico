@@ -584,8 +584,15 @@ def start_modus():
             if finded:
                 time.sleep(1)
                 writes("ready".encode())
-                while not reads().decode() == "ready":
-                    writes("ready".encode())
+                waiting = True
+                while waiting:
+                    det = reads().decode()
+                    if det =="ready":
+                        writes("readyup".encode())
+                    elif det == "readyup":
+                        waiting=False
+                    else:
+                        writes("ready".encode())
                 writes(mpnAme.encode())
                 gotname = False
                 while not gotname:
@@ -606,8 +613,15 @@ def start_modus():
                     time.sleep(0.5)
                 time.sleep(3)
                 writes("ready".encode())
-                while not reads().decode()=="ready":
-                    writes("ready".encode())
+                waiting = True
+                while waiting:
+                    det = reads().decode()
+                    if det == "ready":
+                        writes("readyup".encode())
+                    elif det == "readyup":
+                        waiting = False
+                    else:
+                        writes("ready".encode())
                 writes(mpnAme.encode())
                 gotname=False
                 while not gotname:
