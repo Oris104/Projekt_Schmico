@@ -265,7 +265,6 @@ def confirm():
             selectedButton = False
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
-                turn = 2
                 turnindiChanger(p1, p2)
                 waitfor(True)
 
@@ -274,7 +273,6 @@ def confirm():
                 turn=1
                 p1mov=1
             else:
-                turn = 1
                 turnindiChanger(p1, p2)
                 waitfor(False)
 
