@@ -397,6 +397,8 @@ def reads():
     ser = serial.Serial(getPort(),baudrate=9600,timeout=1)
     print(getPort())
     data=ser.readline()
+    while not data:
+        data=ser.readline()
     ser.close()
     if data:
         print(data.decode())
