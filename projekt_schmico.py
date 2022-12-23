@@ -291,6 +291,7 @@ def confirm():
                     item.uPdate_color()
                 turn=2
                 turnindiChanger(p1, p2)
+                turn=1
                 p1mov=1
             else:
                 turn = 2
@@ -320,7 +321,7 @@ def confirm():
                     item.uPdate_color()
                 turn = 1
                 turnindiChanger(p1, p2)
-
+                turn=2
                 p2mov=1
         flg = 0
 
