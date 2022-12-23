@@ -587,7 +587,7 @@ def start_modus():
                 p1name=reads().decode()
                 time.sleep(0.5)
                 writes("n2c".encode())
-                time.sleep(1)
+                time.sleep(0.5)
                 writes(mpnAme.encode())
                 isP1=False
                 p2name=mpnAme
@@ -603,7 +603,7 @@ def start_modus():
                 time.sleep(3)
                 writes("n1c".encode())
 
-                time.sleep(1)
+                time.sleep(0.5)
                 writes(mpnAme.encode())
                 while not reads().decode() == "n2c":
                     time.sleep(0.2)
