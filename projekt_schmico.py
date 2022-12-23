@@ -585,7 +585,10 @@ def start_modus():
 
 
             finded = False
-            finded=foundPlayer()
+            i=5
+            while i>0:
+                i-=1
+                finded=foundPlayer()
             if finded:
                 time.sleep(1)
                 writes(mpnAme.encode())
