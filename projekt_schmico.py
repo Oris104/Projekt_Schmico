@@ -325,6 +325,8 @@ def turnindiChanger(snake, frosch):
             selectedButton = False
             if frosch.tokensbord <= frosch.tokens and frosch.tokensbord>0:
                 player_anzeige2[frosch.tokensbord - 1].bg = "purple"
+    print(snake.tokensbord)
+    print(frosch.tokensbord)
 class mueleListe(list):
     def __init__(self, B1, B2, B3):
         super().__init__()
@@ -633,7 +635,7 @@ def start_modus():
                 p2mov=0
                 p1mov=0
                 selectedButton=True
-
+                window.destroy()
                 confirm()
 
             else:
