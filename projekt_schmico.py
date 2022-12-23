@@ -566,29 +566,30 @@ def start_modus():
     if f1 and f2:
         hasconfirmed=True
     MUltipl=int(mode.value)
-    if MUltipl:
-        if foundPlayer():
-            time.sleep(0.2)
-            p1name=reads()
-            time.sleep(0.2)
-            writes(mpnAme)
-            isP1=False
-            turn=2
-            p2mov=0
-            p1mov=0
-            confirm()
-        else:
-
-            while isLonley():
-                pass
-            time.sleep(0.2)
-            writes(mpnAme)
-            time.sleep(0.5)
-            p2name=reads()
     if hasconfirmed:
+
+        if MUltipl:
+            if foundPlayer():
+                time.sleep(0.2)
+                p1name=reads()
+                time.sleep(0.2)
+                writes(mpnAme)
+                isP1=False
+                turn=2
+                p2mov=0
+                p1mov=0
+                confirm()
+            else:
+
+                while isLonley():
+                    pass
+                time.sleep(0.2)
+                writes(mpnAme)
+                time.sleep(0.5)
+                p2name=reads()
         window.destroy()
-    text_player1.value = p1name + ": "
-    text_player2.value = p2name + ": "
+        text_player1.value = p1name + ": "
+        text_player2.value = p2name + ": "
 
 
 def change_modus():
