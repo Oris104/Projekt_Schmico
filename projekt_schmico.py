@@ -444,6 +444,7 @@ def unpickler(Plist,Blist):
         x = Plist.index(item)
         Blist[x].state = item
         Blist[x].uPdate_color()
+    print(Plist)
 
 
 def writes(data):
@@ -746,6 +747,4 @@ p2 = Player("n2",maxtkk)
 
 
 app.display()
-while(not hasconfirmed):
-    app.disable()
 print("done")
