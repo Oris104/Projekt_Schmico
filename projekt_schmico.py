@@ -264,19 +264,20 @@ def confirm():
             selectedButton = False
         elif p1mov == 0 or p2mov == 0:
             if turn == 1:
-
+                turn = 2
                 turnindiChanger(p1, p2)
                 waitfor(True)
 
-                turn=2
+
                 turnindiChanger(p1, p2)
                 turn=1
                 p1mov=1
             else:
+                turn = 1
                 turnindiChanger(p1, p2)
                 waitfor(False)
 
-                turn = 1
+
                 turnindiChanger(p1, p2)
                 turn=2
                 p2mov=1
@@ -308,23 +309,21 @@ def turnindiChanger(snake, frosch):
             fla=False
     if turn == 1:
 
-        text_player1.value = text_player1.value[1:]
-        text_player2.value = ">" + text_player2.value
+
         player1.border = False
         player2.border = 2
         if selectedButton:
-            if snake.tokensbord <= snake.tokens:
+            if snake.tokensbord <= snake.tokens and snake.tokensbord>0:
                 player_anzeige1[snake.tokensbord - 1].bg = "purple"
             selectedButton = False
     else:
 
         player1.border = 2
         player2.border = False
-        text_player1.value = ">" + text_player1.value
-        text_player2.value = text_player2.value[1:]
+
         if selectedButton:
             selectedButton = False
-            if frosch.tokensbord <= frosch.tokens:
+            if frosch.tokensbord <= frosch.tokens and frosch.tokensbord>0:
                 player_anzeige2[frosch.tokensbord - 1].bg = "purple"
 class mueleListe(list):
     def __init__(self, B1, B2, B3):
