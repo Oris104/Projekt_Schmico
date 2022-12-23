@@ -400,6 +400,7 @@ def reads(timeo):
     c=5
     while not data and c >0:
         data=ser.readline()
+        print("read")
         if timeo:
             c+=-1
     ser.close()
