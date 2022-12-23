@@ -267,28 +267,7 @@ def confirm():
 
                 turnindiChanger(p1, p2)
                 waitfor(True)
-                for item in BList:
-                    if item.state == 3 and not removestonep2:
-                        item.state = 1
-                        p1.placeToken()
-                    elif removestonep2 and item.state == 3:
-                        item.state = 0
-                        p1.looseToken()
-                        removestonep2 = False
-                    if item.state == 4 and not removestonep1:
-                        item.state = 2
-                        p2.placeToken()
-                    elif removestonep1 and item.state == 4:
-                        item.state = 0
-                        removestonep1 = False
-                        p2.looseToken()
-                    if item.state == 5:
-                        item.state = 0
-                        p1.movecor()
-                    elif item.state == 6:
-                        item.state = 0
-                        p2.movecor()
-                    item.uPdate_color()
+
                 turn=2
                 turnindiChanger(p1, p2)
                 turn=1
@@ -296,28 +275,7 @@ def confirm():
             else:
                 turnindiChanger(p1, p2)
                 waitfor(False)
-                for item in BList:
-                    if item.state == 3 and not removestonep2:
-                        item.state = 1
-                        p1.placeToken()
-                    elif removestonep2 and item.state == 3:
-                        item.state = 0
-                        p1.looseToken()
-                        removestonep2 = False
-                    if item.state == 4 and not removestonep1:
-                        item.state = 2
-                        p2.placeToken()
-                    elif removestonep1 and item.state == 4:
-                        item.state = 0
-                        removestonep1 = False
-                        p2.looseToken()
-                    if item.state == 5:
-                        item.state = 0
-                        p1.movecor()
-                    elif item.state == 6:
-                        item.state = 0
-                        p2.movecor()
-                    item.uPdate_color()
+
                 turn = 1
                 turnindiChanger(p1, p2)
                 turn=2
