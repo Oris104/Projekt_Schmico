@@ -25,11 +25,11 @@ JumpToken = False
 removestonep1 = False
 removestonep2 = False
 jsSelec = False
-maxtkk=10
+maxtkk=9
 p1name="lmao"
 p2name="LamO"
 hasconfirmed=False
-
+fla = True
 isP1=True
 MUltipl = False
 mpnAme =""
@@ -337,9 +337,9 @@ def confirm():
 def turnindiChanger(snake, frosch):
     global p1rem,p2rem
     global selectedButton
-    global turn
+    global turn,fla
 
-    fla = True
+
     while(fla):
         if len(player_anzeige1)>p1.tokens:
             player_anzeige1[0].destroy()
