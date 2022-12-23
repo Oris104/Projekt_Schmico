@@ -482,7 +482,6 @@ def nameexchanger(ownname):
         det = ser.readline().decode()
         if det:
             ser.write((ownname + "\n").encode())
-            noname=False
             time.sleep(3)
             ser.close()
             return det.strip()
@@ -639,7 +638,7 @@ def start_modus():
             error_box.visible = False
             box1.visible = False
             box12.visible = False
-            picture = gz.Picture(box2, image="frog.png") #Change the path if necessarye
+            picture = gz.Picture(box2, image="Resources\\frog.png") #Change the path if necessarye
             box2.bg = "green"
             app.update()
 
@@ -682,6 +681,8 @@ def start_modus():
                 p1mov=0
                 selectedButton=True
                 window.destroy()
+                text_player1.value = p1name + ": "
+                text_player2.value = p2name + ": "
                 confirm()
 
             else:
