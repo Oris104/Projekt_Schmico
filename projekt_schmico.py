@@ -269,19 +269,21 @@ def confirm():
             if turn == 1:
                 turnindiChanger(p1, p2)
                 waitfor(True)
-                player2.border = False
-                player1.border = 2
+
 
                 turnindiChanger(p1, p2)
+                player2.border = False
+                player1.border = 2
                 turn=1
                 p1mov=1
             else:
                 turnindiChanger(p1, p2)
                 waitfor(False)
-                player1.border = False
-                player2.border = 2
+
 
                 turnindiChanger(p1, p2)
+                player1.border = False
+                player2.border = 2
                 turn=2
                 p2mov=1
         flg = 0
