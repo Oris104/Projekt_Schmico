@@ -421,6 +421,7 @@ def waitfor(isp1):
     while not data:
         data=ser.readline()
     unpickler(data,BList)
+    time.sleep(0.2)
     ser.close()
 
 
